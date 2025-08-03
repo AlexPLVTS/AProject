@@ -3,33 +3,50 @@ using Persistence;
 using System;
 using Domain;
 using Microsoft.EntityFrameworkCore;
+using MediatR;
+using Application;
+using Application.Activities.Queries;
+using Application.Activities.Command;
 
 namespace API.Controllers
 {
     public class ActivitiesController : BaseApiController
     {
-        private readonly AppDbContext _context;
+        //private readonly AppDbContext _context;
 
-        public ActivitiesController(AppDbContext context)
-        {
-            _context = context;
-        }
+        //public ActivitiesController(AppDbContext context, IMediator mediator)
+        //{
+        //    _context = context;
+        //}
 
         [HttpGet]
         public async Task<ActionResult<List<Activity>>> GetActivities()
         {
-            return await _context.Activities.ToListAsync();
+            return await Mediator.Send(new GetActivities.Query());
         }
         [HttpGet("{id}")]
         public async Task<ActionResult<Activity>> GetActivityDetail(string id)
         {
-            var activity = await _context.Activities.FindAsync(id);
+            return await Mediator.Send(new GetActivityDetails.Query { Id = id });
+        }
+        [HttpPost]
+        public async Task<ActionResult<string>> CreateActivity(Activity activity)
+        {
+            return await Mediator.Send(new CreateActivity.Command { Activity = activity });
+        }
+        [HttpPut]
+        public async Task<ActionResult> EditActivity(Activity activity)
+        {
+            await Mediator.Send(new EditActivity.Command { Activity = activity });
 
-            if (activity == null) 
-                return NotFound();
+            return NoContent();
+        }
+        [HttpDelete("{id}")]
+        public async Task<ActionResult> DeleteActivity(string id)
+        {
+            await Mediator.Send(new DeleteActivity.Command { Id = id });
 
-            return activity;
-
+            return Ok();
         }
     }
 }
