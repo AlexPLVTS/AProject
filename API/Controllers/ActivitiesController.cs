@@ -12,13 +12,6 @@ namespace API.Controllers
 {
     public class ActivitiesController : BaseApiController
     {
-        //private readonly AppDbContext _context;
-
-        //public ActivitiesController(AppDbContext context, IMediator mediator)
-        //{
-        //    _context = context;
-        //}
-
         [HttpGet]
         public async Task<ActionResult<List<Activity>>> GetActivities()
         {

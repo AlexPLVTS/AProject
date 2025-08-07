@@ -30,5 +30,4 @@ public class EditActivity
             await context.SaveChangesAsync(cancellationToken);
         }
     }
-
 }
