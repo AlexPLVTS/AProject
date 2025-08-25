@@ -10,6 +10,7 @@ using Application.Activities.DTOs;
 using AutoMapper;
 using FluentValidation;
 using Application.Core;
+using Application.Interfaces;
 
 namespace Application.Activities.Command;
 
@@ -20,7 +21,7 @@ public class CreateActivity
         public required CreateActivityDTO ActivityDto { get; set; }
     }
 
-    public class Handler(AppDbContext context, IMapper mapper) : IRequestHandler<Command, Result<string>>
+    public class Handler(AppDbContext context, IMapper mapper, IUserAccessor userAccessor) : IRequestHandler<Command, Result<string>>
     {
         public async Task<Result<string>> Handle(Command request, CancellationToken cancellationToken)
         {
