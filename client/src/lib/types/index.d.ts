@@ -1,11 +1,16 @@
 type Activity = {
     id: string
     title: string
-    date: string
+    date: date
     description: string
     category: string
-    isCanceled: boolean
     city: string
     venue: string
-    latitude: number
+}
+
+type User = {
+    id: string
+    email: string
+    displayName: string
+    imageUrl?: string
 }
